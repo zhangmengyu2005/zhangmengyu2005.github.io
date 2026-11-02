@@ -515,24 +515,24 @@
 <script>
   function go(view){
     var views = ['home','post-apm','post-journey','post-why'];
+    var sections = ['about','certs','writing','contact'];
+    // 点导航里的板块锚点：显示首页并滚动到对应板块
+    if(sections.indexOf(view) >= 0){
+      views.forEach(function(v){
+        document.getElementById('view-'+v).style.display = (v==='home')?'block':'none';
+      });
+      location.hash = view;
+      setTimeout(function(){
+        var el = document.getElementById(view);
+        if(el) el.scrollIntoView({behavior:'smooth'});
+      },50);
+      return;
+    }
+    // 其他：切换视图
     views.forEach(function(v){
       document.getElementById('view-'+v).style.display = (v===view)?'block':'none';
     });
-    if(view==='home'){
-      window.scrollTo(0,0);
-      // 处理导航锚点
-      var hash = location.hash;
-      if(hash==='#about'||hash==='#certs'||hash==='#writing'||hash==='#contact'){
-        setTimeout(function(){
-          var el = document.querySelector(hash);
-          if(el) el.scrollIntoView({behavior:'smooth'});
-        },50);
-      } else {
-        window.scrollTo(0,0);
-      }
-    } else {
-      window.scrollTo(0,0);
-    }
+    window.scrollTo(0,0);
     location.hash = view;
   }
   // 初始路由
